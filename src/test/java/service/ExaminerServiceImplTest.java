@@ -2,11 +2,9 @@ package service;
 
 import org.example.model.Question;
 import org.example.service.ExaminerServiceImpl;
-import org.example.service.JavaQuestionService;
-import org.example.service.MathQuestionService;
 import org.example.service.QuestionService;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 

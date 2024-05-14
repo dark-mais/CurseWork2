@@ -18,21 +18,33 @@ public class ExaminerServiceImpl implements ExaminerService {
 
     @Override
     public Collection<Question> getQuestions(int amount) {
-        Set<Question> uniqueQuestions = new HashSet<>();
-        Random random = new Random();
-
-        while (uniqueQuestions.size() <= amount) {
-            for (QuestionService questionService : questionServices) {
-
-                if (random.nextBoolean()) {
-                    uniqueQuestions.add(questionService.getRandomQuestion());
-                }
-            }
-        }
 
         if (amount <= 0) {
             throw new BadRequestException("Requested amount exceeds available questions.");
         }
+
+        Set<Question> uniqueQuestions = new HashSet<>();
+        Random random = new Random();
+
+        QuestionService java = questionServices.stream()
+                .filter(i -> i instanceof JavaQuestionService)
+                .findFirst()
+                .get();
+
+        QuestionService math = questionServices.stream()
+                .filter(i -> i instanceof MathQuestionService)
+                .findFirst()
+                .get();
+
+        while (uniqueQuestions.size() <= amount) {
+
+            if (random.nextBoolean()) {
+                uniqueQuestions.add(java.getRandomQuestion());
+            } else {
+                uniqueQuestions.add(math.getRandomQuestion());
+            }
+        }
+
 
         return uniqueQuestions;
     }
